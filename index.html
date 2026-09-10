@@ -426,7 +426,7 @@
         </div>
         <div>
           <label>ژمارەی پەیوەندی</label>
-          <input id="fPhone" type="tel" placeholder="٠٧٨٣ ..." required>
+          <input id="fPhone" type="tel" placeholder="0750..." required>
         </div>
         <div>
           <label>جۆری کار</label>
@@ -439,6 +439,10 @@
           </select>
         </div>
         <div>
+          <label>ناوی بابەتەکەت</label>
+          <input id="fSubject" type="text" placeholder="بۆ نموونە: کاریگەری گەرمایی زەوی...">
+        </div>
+        <div>
           <label>وردەکاری داواکاریەکەت</label>
           <textarea id="fMsg" placeholder="کورتە باسی داواکاریەکەت بکە..."></textarea>
         </div>
@@ -449,12 +453,14 @@
       <div class="direct-list">
         <a class="direct-item" id="ci-phone" href="#">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
-          <div><div class="label">پەیوەندی تەلەفۆنی</div><div class="value">0783 136 72 61</div></div>
-          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0750 823 8124','ژمارە کۆپی کرا')">کۆپی</button>
-          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0751 837 7075','ژمارە کۆپی کرا')">کۆپی</button>
-        
+          <div><div class="label">پەیوەندی تەلەفۆنی (١)</div><div class="value">0750 823 8124</div></div>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('2481 823 0750','ژمارە کۆپی کرا')">کۆپی</button>
         </a>
-        
+        <a class="direct-item" id="ci-phone2" href="#">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <div><div class="label">پەیوەندی تەلەفۆنی (٢)</div><div class="value">0751 837 7075</div></div>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('7570 837 0751','ژمارە کۆپی کرا')">کۆپی</button>
+        </a>
         <a class="direct-item" id="ci-whatsapp" href="#" target="_blank">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
           <div><div class="label">واتساپ — خێراترین ڕێگا</div><div class="value">پەیام بنێرە</div></div>
@@ -497,12 +503,15 @@
 <script>
 /* ------- CONFIG: dووباره وردەکاری پەیوەندی لێرە دەستکاری بکە ------- */
 const CONTACT = {
-  phone: '0783 136 72 61',
-  phoneHref: 'tel:+9647831367261',
-  whatsapp: '9647831367261', // ژمارە بەبێ + و بەبێ بۆشایی، بە کۆدی وڵات (964 بۆ عێراق)
+  phone1: '0750 823 8124',
+  phone1Href: 'tel:+9647508238124',
+  phone2: '0751 837 7075',
+  phone2Href: 'tel:+9647518377075',
+  whatsapp: '9647508238124', // ژمارە بەبێ + و بەبێ بۆشایی، بە کۆدی وڵات (964 بۆ عێراق)
   email: 'kgacademics3@gmail.com'
 };
-document.getElementById('ci-phone').href = CONTACT.phoneHref;
+document.getElementById('ci-phone').href = CONTACT.phone1Href;
+document.getElementById('ci-phone2').href = CONTACT.phone2Href;
 document.getElementById('ci-whatsapp').href = 'https://wa.me/' + CONTACT.whatsapp + '?text=' + encodeURIComponent('سڵاو، دەمەوێت زانیاری زیاتر بزانم دەربارەی خزمەتگوزارییەکانتان.');
 document.getElementById('ci-email').href = 'mailto:' + CONTACT.email;
 
@@ -522,6 +531,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   const name = document.getElementById('fName').value.trim();
   const phone = document.getElementById('fPhone').value.trim();
   const type = document.getElementById('fType').value;
+  const subject = document.getElementById('fSubject').value.trim();
   const msg = document.getElementById('fMsg').value.trim();
   if(!name || !phone){ showToast('تکایە ناو و ژمارە پڕ بکەوە'); return; }
   const text = encodeURIComponent(
@@ -529,6 +539,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
     'ناو: ' + name + '\n' +
     'ژمارەی پەیوەندی: ' + phone + '\n' +
     'جۆری کار: ' + type +
+    (subject ? '\nناوی بابەتەکە: ' + subject : '') +
     (msg ? '\nپەیام: ' + msg : '')
   );
   window.open('https://wa.me/' + CONTACT.whatsapp + '?text=' + text, '_blank');
