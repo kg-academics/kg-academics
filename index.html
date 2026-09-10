@@ -267,8 +267,7 @@
   <div class="brand">
     <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.2"/>
-      <path d="M18 42V18h5v10.5L33 18h6.5L28 30.5 40 42h-6.7L23 31.5V42h-5z" fill="var(--gold-bright)"/>
-      <path d="M44 20a8 8 0 100 16" stroke="var(--gold)" stroke-width="1.6" fill="none"/>
+      <text x="30" y="39" text-anchor="middle" font-family="'Aref Ruqaa', serif" font-weight="700" font-size="24" fill="var(--gold-bright)">KG</text>
     </svg>
     <div class="brand-name">K&amp;G Academics<small>یاریدەدەری اکادیمی</small></div>
   </div>
@@ -345,7 +344,8 @@
       <svg viewBox="0 0 120 120" fill="none">
         <circle cx="60" cy="60" r="56" stroke="var(--gold)" stroke-width="1"/>
         <circle cx="60" cy="60" r="40" stroke="var(--navy-line)" stroke-width="1"/>
-        <path d="M40 76V44h11l17 21V44h11v32h-11L51 55v21z" fill="var(--gold-bright)"/>
+        <path d="M60 34 20 52l40 18 32-14.4V78h6V52.6L60 34Z" fill="var(--gold-bright)"/>
+        <path d="M36 60.5V78c0 6.6 10.7 12 24 12s24-5.4 24-12V60.5" stroke="var(--gold-bright)" stroke-width="3" fill="none" stroke-linecap="round"/>
       </svg>
     </div>
     <div>
@@ -379,27 +379,31 @@
 
 <section id="works">
   <div class="section-head">
-    <span class="kicker">کارەکانم</span>
-    <h2>لیستی کارە ڕۆژانەکانت</h2>
-    <p>ڕاپۆرت، سیمینار، پۆستەر یان سی ڤی کە داوات کردووە لێرە تۆمار بکە بۆ چاودێری کردنی پێشکەوتنت. ئەم لیستە تەنها بۆ خۆتە و پاشەکەوت دەکرێت.</p>
+    <span class="kicker">بەرهەمەکانم</span>
+    <h2>کۆگای بەرهەمەکانم</h2>
+    <p>ڕاپۆرت، سیمینار، پۆستەر و سی ڤیی ئامادەکراو — هەموو سەردانکەرێک دەتوانێت ئەم لیستە ببینێت و بەرهەمەکان بکاتەوە.</p>
   </div>
   <div class="works-panel">
     <div class="panel-top">
       <div>
-        <h3 style="font-size:1.2rem; color:var(--paper);">کارە چالاکەکان</h3>
-        <p>کارێکی نوێ زیاد بکە یان ئەوانەی تەواو بوون بسڕەوە.</p>
+        <h3 style="font-size:1.2rem; color:var(--paper);">بەرهەمە بڵاوکراوەکان</h3>
+        <p>ئەم لیستە بۆ هەموو سەردانکەرێک دیارە. تەنها بەڕێوەبەر دەتوانێت بەرهەمی نوێ زیاد بکات یان بسڕێتەوە.</p>
       </div>
+      <button class="btn btn-ghost" id="adminToggleBtn" style="font-size:.85rem; padding:10px 20px;" onclick="toggleAdmin()">چوونەژوورەوەی بەڕێوەبەر</button>
     </div>
-    <div class="add-row">
-      <select id="workType">
-        <option value="ڕاپۆرت">ڕاپۆرت</option>
-        <option value="سیمینار">سیمینار</option>
-        <option value="پۆستەر">پۆستەر</option>
-        <option value="سی ڤی">سی ڤی</option>
-        <option value="کاری تر">کاری تر</option>
-      </select>
-      <input id="workTitle" type="text" placeholder="ناونیشانی کارەکە بنووسە...">
-      <button onclick="addWork()">زیادکردن</button>
+    <div id="adminPanel" class="add-row" style="display:none; flex-direction:column; align-items:stretch;">
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <select id="workType" style="flex:1; min-width:130px;">
+          <option value="ڕاپۆرت">ڕاپۆرت</option>
+          <option value="سیمینار">سیمینار</option>
+          <option value="پۆستەر">پۆستەر</option>
+          <option value="سی ڤی">سی ڤی</option>
+          <option value="کاری تر">کاری تر</option>
+        </select>
+        <input id="workTitle" type="text" placeholder="ناونیشانی بەرهەمەکە..." style="flex:2; min-width:180px;">
+      </div>
+      <input id="workLink" type="text" placeholder="لینکی PDF ـەکە (لینکی گووگڵ درایڤ یان هەر لینکێکی تر)">
+      <button onclick="addWork()">زیادکردنی بەرهەم</button>
     </div>
     <div id="workList" class="work-list"></div>
   </div>
@@ -446,8 +450,11 @@
         <a class="direct-item" id="ci-phone" href="#">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
           <div><div class="label">پەیوەندی تەلەفۆنی</div><div class="value">0783 136 72 61</div></div>
-          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0783 136 72 61','ژمارە کۆپی کرا')">کۆپی</button>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0750 823 8124','ژمارە کۆپی کرا')">کۆپی</button>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0751 837 7075','ژمارە کۆپی کرا')">کۆپی</button>
+        
         </a>
+        
         <a class="direct-item" id="ci-whatsapp" href="#" target="_blank">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
           <div><div class="label">واتساپ — خێراترین ڕێگا</div><div class="value">پەیام بنێرە</div></div>
@@ -457,11 +464,10 @@
           <div><div class="label">ئیمەیل</div><div class="value">kgacademics3@gmail.com</div></div>
           <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('kgacademics3@gmail.com','ئیمەیل کۆپی کرا')">کۆپی</button>
         </a>
-        <div class="direct-item">
+        <a class="direct-item" href="https://t.me/kg_academics" target="_blank" rel="noopener">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/></svg></span>
-          <div><div class="label">تێلێگرام</div><div class="value">@K&amp;G_Academics</div></div>
-          <button class="copy-btn" onclick="copyText('@K&amp;G_Academics','ناوی تێلێگرام کۆپی کرا')">کۆپی</button>
-        </div>
+          <div><div class="label">تێلێگرام</div><div class="value">بەشداریی گرووپەکەمان بکە</div></div>
+        </a>
         <div class="direct-item">
           <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></span>
           <div><div class="label">ئینستاگرام</div><div class="value">K&amp;G Academics</div></div>
@@ -480,7 +486,7 @@
 
 <footer>
   <div class="fbrand">
-    <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.2"/><path d="M18 42V18h5v10.5L33 18h6.5L28 30.5 40 42h-6.7L23 31.5V42h-5z" fill="var(--gold-bright)"/></svg>
+    <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.2"/><text x="30" y="39" text-anchor="middle" font-family="'Aref Ruqaa', serif" font-weight="700" font-size="24" fill="var(--gold-bright)">KG</text></svg>
     <span style="font-family:'Aref Ruqaa',serif; font-size:1.1rem; color:var(--paper);">K&amp;G Academics</span>
   </div>
   <p>هەموو مافەکان پارێزراون © K&amp;G Academics ٢٠٢٦ — بە خۆشەویستی ئامادەکراوە بۆ قوتابیان</p>
@@ -529,12 +535,39 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   showToast('داواکاریەکەت ئامادە کرا بۆ ناردن لە واتساپ');
 });
 
-/* ------- works tracker (persisted via window.storage) ------- */
+/* ------- بەرهەمەکانم: لیستێکی هاوبەش (shared) کە هەموو سەردانکەر دەیبینێت ------- */
+/* تێبینی: ئەم زانیارییانە shared ـن، واتە هەموو سەردانکەرانی وێبسایتەکە دەیانبینن. */
 const STORAGE_KEY = 'kg-works-list';
+const ADMIN_PASSWORD = 'kg2026'; // ئەم وشە نهێنییە دەتوانیت لێرە بیگۆڕیت
+let isAdmin = false;
+
+function toggleAdmin(){
+  const panel = document.getElementById('adminPanel');
+  const btn = document.getElementById('adminToggleBtn');
+  if(isAdmin){
+    isAdmin = false;
+    panel.style.display = 'none';
+    btn.textContent = 'چوونەژوورەوەی بەڕێوەبەر';
+    renderWorks(currentWorks);
+    return;
+  }
+  const pass = prompt('وشەی نهێنی بەڕێوەبەر بنووسە:');
+  if(pass === null) return;
+  if(pass === ADMIN_PASSWORD){
+    isAdmin = true;
+    panel.style.display = 'flex';
+    btn.textContent = 'دەرچوون لە بەڕێوەبەری';
+    renderWorks(currentWorks);
+  } else {
+    showToast('وشەی نهێنی هەڵەیە');
+  }
+}
+
+let currentWorks = [];
 
 async function loadWorks(){
   try{
-    const res = await window.storage.get(STORAGE_KEY, false);
+    const res = await window.storage.get(STORAGE_KEY, true);
     return res ? JSON.parse(res.value) : [];
   }catch(err){
     return [];
@@ -542,38 +575,45 @@ async function loadWorks(){
 }
 async function saveWorks(list){
   try{
-    await window.storage.set(STORAGE_KEY, JSON.stringify(list), false);
+    await window.storage.set(STORAGE_KEY, JSON.stringify(list), true);
   }catch(err){
     console.error('Storage error', err);
   }
 }
 function renderWorks(list){
+  currentWorks = list;
   const wrap = document.getElementById('workList');
   if(!list.length){
-    wrap.innerHTML = '<div class="empty-state">هیچ کارێک تۆمار نەکراوە هێشتا — یەکەم کارت لە سەرەوە زیاد بکە.</div>';
+    wrap.innerHTML = '<div class="empty-state">هێشتا هیچ بەرهەمێک زیاد نەکراوە.</div>';
     return;
   }
   wrap.innerHTML = list.map((w,i)=>`
     <div class="work-item">
       <span class="tag">${w.type}</span>
       <span class="title">${w.title}</span>
+      ${w.link ? `<a href="${w.link}" target="_blank" rel="noopener" style="color:var(--gold-bright); font-size:.85rem; font-weight:700; white-space:nowrap;">بینینی PDF ↗</a>` : ''}
       <span class="date">${w.date}</span>
-      <button class="del" onclick="removeWork(${i})" aria-label="سڕینەوە">✕</button>
+      ${isAdmin ? `<button class="del" onclick="removeWork(${i})" aria-label="سڕینەوە">✕</button>` : ''}
     </div>
   `).join('');
 }
 async function addWork(){
+  if(!isAdmin) return;
   const type = document.getElementById('workType').value;
   const titleInput = document.getElementById('workTitle');
+  const linkInput = document.getElementById('workLink');
   const title = titleInput.value.trim();
-  if(!title){ showToast('ناونیشانی کارەکە بنووسە'); return; }
+  const link = linkInput.value.trim();
+  if(!title){ showToast('ناونیشانی بەرهەمەکە بنووسە'); return; }
   const list = await loadWorks();
-  list.unshift({ type, title, date: new Date().toLocaleDateString('en-GB') });
+  list.unshift({ type, title, link, date: new Date().toLocaleDateString('en-GB') });
   await saveWorks(list);
   titleInput.value = '';
+  linkInput.value = '';
   renderWorks(list);
 }
 async function removeWork(index){
+  if(!isAdmin) return;
   const list = await loadWorks();
   list.splice(index,1);
   await saveWorks(list);
