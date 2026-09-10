@@ -387,29 +387,15 @@
     <div class="panel-top">
       <div>
         <h3 style="font-size:1.2rem; color:var(--paper);">بەرهەمە بڵاوکراوەکان</h3>
-        <p>ئەم لیستە بۆ هەموو سەردانکەرێک دیارە. تەنها بەڕێوەبەر دەتوانێت بەرهەمی نوێ زیاد بکات یان بسڕێتەوە.</p>
+        <p>ئەم لیستە لە فایلی works.json وەردەگیرێت. بۆ زیادکردنی بەرهەمی نوێ، فایلی works.json لە گیتهەب دەستکاری بکە.</p>
       </div>
-      <button class="btn btn-ghost" id="adminToggleBtn" style="font-size:.85rem; padding:10px 20px;" onclick="toggleAdmin()">چوونەژوورەوەی بەڕێوەبەر</button>
-    </div>
-    <div id="adminPanel" class="add-row" style="display:none; flex-direction:column; align-items:stretch;">
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <select id="workType" style="flex:1; min-width:130px;">
-          <option value="ڕاپۆرت">ڕاپۆرت</option>
-          <option value="سیمینار">سیمینار</option>
-          <option value="پۆستەر">پۆستەر</option>
-          <option value="سی ڤی">سی ڤی</option>
-          <option value="کاری تر">کاری تر</option>
-        </select>
-        <input id="workTitle" type="text" placeholder="ناونیشانی بەرهەمەکە..." style="flex:2; min-width:180px;">
-      </div>
-      <input id="workLink" type="text" placeholder="لینکی PDF ـەکە (لینکی گووگڵ درایڤ یان هەر لینکێکی تر)">
-      <button onclick="addWork()">زیادکردنی بەرهەم</button>
     </div>
     <div id="workList" class="work-list"></div>
   </div>
 </section>
 
 <div class="divider"></div>
+
 
 <section id="contact">
   <div class="section-head">
@@ -548,91 +534,34 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
 
 /* ------- بەرهەمەکانم: لیستێکی هاوبەش (shared) کە هەموو سەردانکەر دەیبینێت ------- */
 /* تێبینی: ئەم زانیارییانە shared ـن، واتە هەموو سەردانکەرانی وێبسایتەکە دەیانبینن. */
-const STORAGE_KEY = 'kg-works-list';
-const ADMIN_PASSWORD = 'kg2026'; // ئەم وشە نهێنییە دەتوانیت لێرە بیگۆڕیت
-let isAdmin = false;
-
-function toggleAdmin(){
-  const panel = document.getElementById('adminPanel');
-  const btn = document.getElementById('adminToggleBtn');
-  if(isAdmin){
-    isAdmin = false;
-    panel.style.display = 'none';
-    btn.textContent = 'چوونەژوورەوەی بەڕێوەبەر';
-    renderWorks(currentWorks);
-    return;
-  }
-  const pass = prompt('وشەی نهێنی بەڕێوەبەر بنووسە:');
-  if(pass === null) return;
-  if(pass === ADMIN_PASSWORD){
-    isAdmin = true;
-    panel.style.display = 'flex';
-    btn.textContent = 'دەرچوون لە بەڕێوەبەری';
-    renderWorks(currentWorks);
-  } else {
-    showToast('وشەی نهێنی هەڵەیە');
-  }
-}
-
-let currentWorks = [];
-
-async function loadWorks(){
-  try{
-    const res = await window.storage.get(STORAGE_KEY, true);
-    return res ? JSON.parse(res.value) : [];
-  }catch(err){
-    return [];
-  }
-}
-async function saveWorks(list){
-  try{
-    await window.storage.set(STORAGE_KEY, JSON.stringify(list), true);
-  }catch(err){
-    console.error('Storage error', err);
-  }
-}
+/* ------- بەرهەمەکانم: لیستەکە لە فایلی works.json وەردەگیرێت -------
+   بۆ زیادکردنی بەرهەمی نوێ: لە گیتهەب فایلی works.json بکەرەوە و
+   بابەتێکی نوێ بەم شێوەیە زیاد بکە:
+   { "type": "ڕاپۆرت", "title": "ناونیشانی بەرهەمەکە", "link": "لینکی PDF", "date": "10/09/2026" }
+*/
 function renderWorks(list){
-  currentWorks = list;
   const wrap = document.getElementById('workList');
   if(!list.length){
     wrap.innerHTML = '<div class="empty-state">هێشتا هیچ بەرهەمێک زیاد نەکراوە.</div>';
     return;
   }
-  wrap.innerHTML = list.map((w,i)=>`
+  wrap.innerHTML = list.map(w=>`
     <div class="work-item">
       <span class="tag">${w.type}</span>
       <span class="title">${w.title}</span>
       ${w.link ? `<a href="${w.link}" target="_blank" rel="noopener" style="color:var(--gold-bright); font-size:.85rem; font-weight:700; white-space:nowrap;">بینینی PDF ↗</a>` : ''}
-      <span class="date">${w.date}</span>
-      ${isAdmin ? `<button class="del" onclick="removeWork(${i})" aria-label="سڕینەوە">✕</button>` : ''}
+      <span class="date">${w.date || ''}</span>
     </div>
   `).join('');
 }
-async function addWork(){
-  if(!isAdmin) return;
-  const type = document.getElementById('workType').value;
-  const titleInput = document.getElementById('workTitle');
-  const linkInput = document.getElementById('workLink');
-  const title = titleInput.value.trim();
-  const link = linkInput.value.trim();
-  if(!title){ showToast('ناونیشانی بەرهەمەکە بنووسە'); return; }
-  const list = await loadWorks();
-  list.unshift({ type, title, link, date: new Date().toLocaleDateString('en-GB') });
-  await saveWorks(list);
-  titleInput.value = '';
-  linkInput.value = '';
-  renderWorks(list);
-}
-async function removeWork(index){
-  if(!isAdmin) return;
-  const list = await loadWorks();
-  list.splice(index,1);
-  await saveWorks(list);
-  renderWorks(list);
-}
 (async ()=>{
-  const list = await loadWorks();
-  renderWorks(list);
+  try{
+    const res = await fetch('works.json', { cache: 'no-store' });
+    const list = await res.json();
+    renderWorks(Array.isArray(list) ? list : []);
+  }catch(err){
+    renderWorks([]);
+  }
 })();
 </script>
 
