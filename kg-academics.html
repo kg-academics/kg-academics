@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K&amp;G Academics — یاریدەدەری خوێندنت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#08121f;
+    --navy:#0d1e33;
+    --navy-elevated:#132a45;
+    --navy-line: rgba(201,162,39,0.22);
+    --gold:#c9a227;
+    --gold-bright:#ecc866;
+    --gold-dim:#8a7332;
+    --paper:#f2ecdc;
+    --ink:#eef1f6;
+    --ink-muted:#93a1b8;
+    --danger:#c9645a;
+    --radius-lg: 26px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--ink);
+    font-family:'Noto Kufi Arabic', sans-serif;
+    line-height:1.9;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.display{
+    font-family:'Aref Ruqaa', serif;
+    font-weight:700;
+    line-height:1.35;
+    margin:0;
+  }
+  a{color:inherit; text-decoration:none;}
+  ::selection{background:var(--gold); color:var(--navy-deep);}
+
+  /* ---------- decorative background ---------- */
+  .bg-weave{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px clamp(20px,5vw,64px);
+    background:rgba(8,18,31,0.82);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--navy-line);
+  }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand svg{ width:42px; height:42px; flex-shrink:0; }
+  .brand-name{ font-family:'Aref Ruqaa',serif; font-size:1.35rem; color:var(--paper); letter-spacing:.5px; }
+  .brand-name small{ display:block; font-family:'Noto Kufi Arabic',sans-serif; font-size:.62rem; color:var(--gold-bright); font-weight:600; letter-spacing:2px; }
+  nav.links{ display:flex; gap:30px; }
+  nav.links a{ font-size:.95rem; color:var(--ink-muted); transition:color .25s; position:relative; }
+  nav.links a:hover{ color:var(--gold-bright); }
+  .nav-cta{
+    display:flex; align-items:center; gap:10px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-dim));
+    color:var(--navy-deep); font-weight:700; font-size:.88rem;
+    padding:9px 20px; border-radius:999px;
+  }
+  .burger{ display:none; background:none; border:none; color:var(--paper); font-size:1.6rem; cursor:pointer; }
+
+  @media (max-width:860px){
+    nav.links{ display:none; }
+    .nav-cta{ display:none; }
+    .burger{ display:block; }
+  }
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    padding:min(14vw,120px) clamp(20px,5vw,64px) 90px;
+    display:grid; place-items:center; text-align:center;
+    isolation:isolate;
+  }
+  .hero::before{
+    content:''; position:absolute; inset:0; z-index:-1;
+    background:
+      radial-gradient(circle at 20% 15%, rgba(201,162,39,0.14), transparent 45%),
+      radial-gradient(circle at 82% 78%, rgba(201,162,39,0.10), transparent 40%),
+      linear-gradient(160deg,#08121f 0%, #0d1e33 55%, #08121f 100%);
+  }
+  .hero-ring{
+    position:absolute; z-index:-1; border-radius:50%;
+    border:1px solid var(--navy-line);
+  }
+  .ring1{ width:640px; height:640px; top:-160px; right:-160px; }
+  .ring2{ width:420px; height:420px; bottom:-140px; left:-100px; }
+  .eyebrow-mark{
+    display:flex; align-items:center; gap:14px; margin-bottom:26px; color:var(--gold-bright); font-size:.95rem;
+  }
+  .eyebrow-mark .rule{ width:46px; height:1px; background:var(--gold); }
+  .hero h1{
+    font-size:clamp(2.3rem, 5.6vw, 4rem);
+    color:var(--paper);
+    max-width:16ch;
+  }
+  .hero h1 .gilt{ color:var(--gold-bright); }
+  .hero p.sub{
+    max-width:52ch; margin:26px auto 0; color:var(--ink-muted); font-size:1.08rem;
+  }
+  .hero-actions{ display:flex; gap:16px; margin-top:40px; flex-wrap:wrap; justify-content:center; }
+  .btn{
+    padding:14px 30px; border-radius:999px; font-weight:700; font-size:.95rem;
+    display:inline-flex; align-items:center; gap:10px; cursor:pointer; border:none;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); }
+  .btn-gold{ background:linear-gradient(135deg,var(--gold-bright),var(--gold)); color:#241a02; box-shadow:0 10px 30px -12px rgba(201,162,39,.6); }
+  .btn-ghost{ background:transparent; border:1px solid var(--navy-line); color:var(--paper); }
+  .btn-ghost:hover{ border-color:var(--gold); }
+
+  .hero-strip{
+    margin-top:64px; display:flex; gap:clamp(20px,4vw,56px); flex-wrap:wrap; justify-content:center;
+    color:var(--ink-muted); font-size:.85rem;
+  }
+  .hero-strip span b{ display:block; color:var(--gold-bright); font-family:'Aref Ruqaa',serif; font-size:1.5rem; }
+
+  /* ---------- section shell ---------- */
+  section{ position:relative; padding:100px clamp(20px,5vw,64px); max-width:1180px; margin:0 auto; }
+  .section-head{ text-align:center; max-width:60ch; margin:0 auto 56px; }
+  .section-head .kicker{ color:var(--gold-bright); font-size:.9rem; margin-bottom:14px; display:block; }
+  .section-head h2{ font-size:clamp(1.8rem,3.4vw,2.6rem); color:var(--paper); }
+  .section-head p{ color:var(--ink-muted); margin-top:16px; font-size:1.02rem; }
+  .divider{
+    width:100%; max-width:1180px; margin:0 auto; height:1px;
+    background:linear-gradient(90deg, transparent, var(--navy-line) 20%, var(--navy-line) 80%, transparent);
+  }
+
+  /* ---------- services ---------- */
+  .services-grid{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px;
+  }
+  .service-card{
+    background:linear-gradient(165deg, var(--navy-elevated), var(--navy));
+    border:1px solid var(--navy-line);
+    border-radius:var(--radius-lg);
+    padding:32px 26px;
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .service-card:hover{ transform:translateY(-6px); border-color:var(--gold-dim); }
+  .service-card .icon{
+    width:52px; height:52px; border-radius:14px;
+    background:rgba(201,162,39,0.12); display:grid; place-items:center; margin-bottom:20px;
+    color:var(--gold-bright);
+  }
+  .service-card h3{ font-size:1.25rem; color:var(--paper); margin-bottom:10px; }
+  .service-card p{ color:var(--ink-muted); font-size:.92rem; margin:0; }
+
+  /* ---------- why us ---------- */
+  .why-wrap{ display:grid; grid-template-columns: 1fr 1.15fr; gap:60px; align-items:center; }
+  @media (max-width:860px){ .why-wrap{ grid-template-columns:1fr; } }
+  .why-visual{
+    position:relative; aspect-ratio:1/1; border-radius:var(--radius-lg);
+    background:linear-gradient(150deg,var(--navy-elevated),var(--navy-deep));
+    border:1px solid var(--navy-line);
+    display:grid; place-items:center; overflow:hidden;
+  }
+  .why-visual svg{ width:62%; height:62%; }
+  .why-list{ display:flex; flex-direction:column; gap:26px; }
+  .why-item{ display:flex; gap:18px; }
+  .why-item .dot{
+    width:8px; height:8px; border-radius:50%; background:var(--gold); margin-top:12px; flex-shrink:0;
+    box-shadow:0 0 0 4px rgba(201,162,39,.15);
+  }
+  .why-item h4{ color:var(--paper); font-size:1.08rem; font-family:'Noto Kufi Arabic'; font-weight:700; margin-bottom:6px; }
+  .why-item p{ color:var(--ink-muted); font-size:.94rem; margin:0; }
+
+  /* ---------- works tracker ---------- */
+  .works-panel{
+    background:linear-gradient(165deg, var(--navy-elevated), var(--navy));
+    border:1px solid var(--navy-line); border-radius:var(--radius-lg); padding:clamp(24px,4vw,44px);
+  }
+  .works-panel .panel-top{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:28px; }
+  .works-panel .panel-top p{ color:var(--ink-muted); font-size:.9rem; margin:8px 0 0; max-width:46ch; }
+  .add-row{ display:flex; gap:10px; margin-bottom:24px; flex-wrap:wrap; }
+  .add-row input, .add-row select{
+    flex:1; min-width:150px; background:var(--navy-deep); border:1px solid var(--navy-line);
+    color:var(--ink); padding:13px 16px; border-radius:var(--radius-sm); font-family:inherit; font-size:.92rem;
+  }
+  .add-row input:focus, .add-row select:focus{ outline:none; border-color:var(--gold); }
+  .add-row button{
+    background:var(--gold); color:var(--navy-deep); border:none; border-radius:var(--radius-sm);
+    padding:0 22px; font-weight:700; cursor:pointer; font-family:inherit; font-size:.92rem;
+  }
+  .work-list{ display:flex; flex-direction:column; gap:10px; }
+  .work-item{
+    display:flex; align-items:center; gap:14px; background:var(--navy-deep);
+    border:1px solid var(--navy-line); border-radius:var(--radius-sm); padding:14px 18px;
+  }
+  .work-item .tag{
+    font-size:.72rem; padding:4px 12px; border-radius:999px; background:rgba(201,162,39,.14); color:var(--gold-bright); white-space:nowrap;
+  }
+  .work-item .title{ flex:1; color:var(--ink); font-size:.95rem; }
+  .work-item .date{ color:var(--ink-muted); font-size:.78rem; white-space:nowrap; }
+  .work-item .del{ background:none; border:none; color:var(--ink-muted); cursor:pointer; font-size:1.1rem; padding:4px; }
+  .work-item .del:hover{ color:var(--danger); }
+  .empty-state{ text-align:center; padding:36px 10px; color:var(--ink-muted); font-size:.92rem; }
+
+  /* ---------- contact ---------- */
+  .contact-wrap{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+  @media (max-width:860px){ .contact-wrap{ grid-template-columns:1fr; } }
+  .contact-card{
+    background:linear-gradient(165deg, var(--navy-elevated), var(--navy));
+    border:1px solid var(--navy-line); border-radius:var(--radius-lg); padding:clamp(24px,4vw,40px);
+  }
+  form{ display:flex; flex-direction:column; gap:16px; }
+  form label{ font-size:.85rem; color:var(--ink-muted); margin-bottom:-8px; }
+  form input, form select, form textarea{
+    background:var(--navy-deep); border:1px solid var(--navy-line); color:var(--ink);
+    padding:13px 16px; border-radius:var(--radius-sm); font-family:inherit; font-size:.95rem; width:100%;
+  }
+  form textarea{ resize:vertical; min-height:110px; }
+  form input:focus, form select:focus, form textarea:focus{ outline:none; border-color:var(--gold); }
+  form button{
+    margin-top:6px; background:linear-gradient(135deg,var(--gold-bright),var(--gold)); color:#241a02;
+    border:none; padding:15px; border-radius:999px; font-weight:700; font-size:.98rem; cursor:pointer; font-family:inherit;
+  }
+  .direct-list{ display:flex; flex-direction:column; gap:14px; }
+  .direct-item{
+    display:flex; align-items:center; gap:16px; background:var(--navy-deep); border:1px solid var(--navy-line);
+    border-radius:var(--radius-md); padding:16px 18px; transition:border-color .25s;
+  }
+  .direct-item:hover{ border-color:var(--gold-dim); }
+  .direct-item .ic{ width:42px; height:42px; border-radius:11px; background:rgba(201,162,39,.14); display:grid; place-items:center; color:var(--gold-bright); flex-shrink:0; }
+  .direct-item .label{ font-size:.78rem; color:var(--ink-muted); }
+  .direct-item .value{ font-size:.98rem; color:var(--paper); font-weight:600; }
+  .copy-btn{
+    margin-right:auto; background:none; border:1px solid var(--navy-line); color:var(--ink-muted);
+    border-radius:8px; padding:6px 12px; font-size:.75rem; cursor:pointer; font-family:inherit;
+  }
+  .copy-btn:hover{ color:var(--gold-bright); border-color:var(--gold); }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--navy-line); padding:36px clamp(20px,5vw,64px); text-align:center;
+    color:var(--ink-muted); font-size:.85rem;
+  }
+  footer .brand-name{ justify-content:center; margin-bottom:10px; }
+  footer .fbrand{ display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:14px; }
+  footer .fbrand svg{ width:28px; height:28px; }
+
+  .toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--gold-bright); color:#241a02; padding:12px 26px; border-radius:999px;
+    font-weight:700; font-size:.9rem; opacity:0; pointer-events:none; transition:all .3s ease; z-index:999;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.2"/>
+      <text x="30" y="39" text-anchor="middle" font-family="'Aref Ruqaa', serif" font-weight="700" font-size="24" fill="var(--gold-bright)">KG</text>
+    </svg>
+    <div class="brand-name">K&amp;G Academics<small>یاریدەدەری اکادیمی</small></div>
+  </div>
+  <nav class="links">
+    <a href="#services">خزمەتگوزارییەکان</a>
+    <a href="#why">بۆچی ئێمە</a>
+    <a href="#works">کارەکانم</a>
+    <a href="#contact">پەیوەندی</a>
+  </nav>
+  <a href="#contact" class="nav-cta">
+    <span>داواکاری بنێرە</span>
+  </a>
+  <button class="burger" onclick="document.querySelector('nav.links').style.display='flex';document.querySelector('nav.links').style.position='fixed';document.querySelector('nav.links').style.flexDirection='column';document.querySelector('nav.links').style.top='64px';document.querySelector('nav.links').style.left='0';document.querySelector('nav.links').style.right='0';document.querySelector('nav.links').style.background='#08121f';document.querySelector('nav.links').style.padding='20px';document.querySelector('nav.links').style.textAlign='center';document.querySelector('nav.links').style.gap='18px';">☰</button>
+</header>
+
+<section class="hero">
+  <div class="hero-ring ring1"></div>
+  <div class="hero-ring ring2"></div>
+  <div class="eyebrow-mark"><span class="rule"></span> خزمەتگوزاری ئەکادیمی بۆ قوتابیان <span class="rule"></span></div>
+  <h1>کارە خوێندنییەکانت بە <span class="gilt">وردی و جوانی</span> ئامادە دەکەین</h1>
+  <p class="sub">ڕاپۆرت، سیمینار، پۆستەر و سی ڤی — بە پیشەیی و بە نرخێکی گونجاو، لەلایەن کەسانێکی شارەزاوە بۆت ئامادە دەکرێت.</p>
+  <div class="hero-actions">
+    <a href="#services" class="btn btn-gold">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14 3v5h5"/></svg>
+      خزمەتگوزارییەکان بینین
+    </a>
+    <a href="#contact" class="btn btn-ghost">پەیوەندیمان پێوە بکە</a>
+  </div>
+  <div class="hero-strip">
+    <span><b>٤+</b>جۆری خزمەتگوزاری</span>
+    <span><b>پیشەیی</b>کاری مۆدێرن</span>
+    <span><b>خێرا</b>ئامادەکردن</span>
+    <span><b>گونجاو</b>نرخی خۆشەویستی</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="services">
+  <div class="section-head">
+    <span class="kicker">خزمەتگوزارییەکان</span>
+    <h2>هەموو ئەوەی بۆ خوێندنت پێویستە</h2>
+    <p>لە نووسینی ڕاپۆرت تا ئامادەکردنی سی ڤی، هەموو کارە قوتابیانەکانت لە یەک شوێن.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V5a2 2 0 0 1 2-2h9l5 5v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M14 3v5h5"/><path d="M8 13h8M8 17h5"/></svg></div>
+      <h3>ڕاپۆرت</h3>
+      <p>نووسین و ڕێکخستنی ڕاپۆرتی زانستی و کۆرسی، بە شێوازێکی ڕێکوپێک و سەرچاوەی متمانەپێکراو.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <h3>سیمینار</h3>
+      <p>ئامادەکردنی ناوەڕۆک و سلایدی سیمینار، بە شێوەیەکی سەرنجڕاکێش و ئامادە بۆ پێشکەشکردن.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+      <h3>پۆستەر</h3>
+      <p>دیزاینی پۆستەری ئەکادیمی بە ڕووکارێکی جوان و پیشەیی، گونجاو بۆ کۆنفرانس و پێشکەشکردن.</p>
+    </div>
+    <div class="service-card">
+      <div class="icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></svg></div>
+      <h3>سی ڤی (CV)</h3>
+      <p>ئامادەکردنی سی ڤی‌یەکی پیشەیی کە شایستەیی و شارەزاییەکانت بە باشترین شێوە پیشان بدات.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="why">
+  <div class="why-wrap">
+    <div class="why-visual">
+      <svg viewBox="0 0 120 120" fill="none">
+        <circle cx="60" cy="60" r="56" stroke="var(--gold)" stroke-width="1"/>
+        <circle cx="60" cy="60" r="40" stroke="var(--navy-line)" stroke-width="1"/>
+        <path d="M60 34 20 52l40 18 32-14.4V78h6V52.6L60 34Z" fill="var(--gold-bright)"/>
+        <path d="M36 60.5V78c0 6.6 10.7 12 24 12s24-5.4 24-12V60.5" stroke="var(--gold-bright)" stroke-width="3" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div>
+      <div class="section-head" style="text-align:right; margin:0 0 34px;">
+        <span class="kicker">بۆچی ئێمە</span>
+        <h2>کاری تۆ لای ئێمە بە گرنگی وەردەگیرێت</h2>
+      </div>
+      <div class="why-list">
+        <div class="why-item">
+          <span class="dot"></span>
+          <div><h4>وردی و کوالیتی بەرز</h4><p>هەر کارێک بە وردی و بەپێی ستانداردی زانستی ئامادە دەکرێت، دوور لە هەڵە.</p></div>
+        </div>
+        <div class="why-item">
+          <span class="dot"></span>
+          <div><h4>نرخی گونجاو بۆ قوتابی</h4><p>نرخەکان تایبەتن بۆ خۆشەویستی قوتابیان، بەبێ زیادەڕۆیی لە بەراوردکردندا.</p></div>
+        </div>
+        <div class="why-item">
+          <span class="dot"></span>
+          <div><h4>وەڵامدانەوەی خێرا</h4><p>پەیوەندی ڕاستەوخۆ لەگەڵ کەسی بەرپرس، بەبێ دواکەوتن لە وەڵامدانەوە.</p></div>
+        </div>
+        <div class="why-item">
+          <span class="dot"></span>
+          <div><h4>شێوازی سەردەمیانە</h4><p>هەموو کارەکان بە دیزاینێکی مۆدێرن و پیشەیی ئامادە دەکرێن، ئامادە بۆ پێشکەشکردن.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="works">
+  <div class="section-head">
+    <span class="kicker">بەرهەمەکانم</span>
+    <h2>کۆگای بەرهەمەکانم</h2>
+    <p>ڕاپۆرت، سیمینار، پۆستەر و سی ڤیی ئامادەکراو — هەموو سەردانکەرێک دەتوانێت ئەم لیستە ببینێت و بەرهەمەکان بکاتەوە.</p>
+  </div>
+  <div class="works-panel">
+    <div class="panel-top">
+      <div>
+        <h3 style="font-size:1.2rem; color:var(--paper);">بەرهەمە بڵاوکراوەکان</h3>
+        <p>ئەم لیستە لە فایلی works.json وەردەگیرێت. بۆ زیادکردنی بەرهەمی نوێ، فایلی works.json لە گیتهەب دەستکاری بکە.</p>
+      </div>
+    </div>
+    <div id="workList" class="work-list"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<section id="contact">
+  <div class="section-head">
+    <span class="kicker">پەیوەندی</span>
+    <h2>ڕاستەوخۆ پەیوەندیمان پێوە بکە</h2>
+    <p>فۆرمەکە پڕ بکەوە یان ڕاستەوخۆ لە ڕێگەی یەکێک لە ژێرەوە پەیوەندیمان پێوە بکە.</p>
+  </div>
+  <div class="contact-wrap">
+    <div class="contact-card">
+      <form id="contactForm">
+        <div>
+          <label>ناو</label>
+          <input id="fName" type="text" placeholder="ناوی تەواوت" required>
+        </div>
+        <div>
+          <label>ژمارەی پەیوەندی</label>
+          <input id="fPhone" type="tel" placeholder="٠٧٨٣ ..." required>
+        </div>
+        <div>
+          <label>جۆری کار</label>
+          <select id="fType">
+            <option value="ڕاپۆرت">ڕاپۆرت</option>
+            <option value="سیمینار">سیمینار</option>
+            <option value="پۆستەر">پۆستەر</option>
+            <option value="سی ڤی">سی ڤی</option>
+            <option value="کاری تر">کاری تر</option>
+          </select>
+        </div>
+        <div>
+          <label>ناوی بابەتەکەت</label>
+          <input id="fSubject" type="text" placeholder="بۆ نموونە: کاریگەری گەرمایی زەوی...">
+        </div>
+        <div>
+          <label>وردەکاری داواکاریەکەت</label>
+          <textarea id="fMsg" placeholder="کورتە باسی داواکاریەکەت بکە..."></textarea>
+        </div>
+        <button type="submit">ناردنی داواکاری بە واتساپ</button>
+      </form>
+    </div>
+    <div class="contact-card">
+      <div class="direct-list">
+        <a class="direct-item" id="ci-phone" href="#">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <div><div class="label">پەیوەندی تەلەفۆنی (١)</div><div class="value" dir="ltr" style="text-align:right;">0750 823 8124</div></div>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0750 823 8124','ژمارە کۆپی کرا')">کۆپی</button>
+        </a>
+        <a class="direct-item" id="ci-phone2" href="#">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <div><div class="label">پەیوەندی تەلەفۆنی (٢)</div><div class="value" dir="ltr" style="text-align:right;">0751 837 7075</div></div>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('0751 837 7075','ژمارە کۆپی کرا')">کۆپی</button>
+        </a>
+        <a class="direct-item" id="ci-whatsapp" href="#" target="_blank">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></span>
+          <div><div class="label">واتساپ — خێراترین ڕێگا</div><div class="value">پەیام بنێرە</div></div>
+        </a>
+        <a class="direct-item" id="ci-email" href="#">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+          <div><div class="label">ئیمەیل</div><div class="value">kgacademics3@gmail.com</div></div>
+          <button class="copy-btn" onclick="event.preventDefault();event.stopPropagation();copyText('kgacademics3@gmail.com','ئیمەیل کۆپی کرا')">کۆپی</button>
+        </a>
+        <a class="direct-item" href="https://t.me/kg_academics" target="_blank" rel="noopener">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m22 2-7 20-4-9-9-4Z"/></svg></span>
+          <div><div class="label">تێلێگرام</div><div class="value">بەشداریی گرووپەکەمان بکە</div></div>
+        </a>
+        <div class="direct-item">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></span>
+          <div><div class="label">ئینستاگرام</div><div class="value">K&amp;G Academics</div></div>
+          <button class="copy-btn" onclick="copyText('K&amp;G Academics','ناو کۆپی کرا')">کۆپی</button>
+        </div>
+        <div class="direct-item">
+          <span class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/></svg></span>
+          <div><div class="label">فەیسبووک</div><div class="value">Kg Academics</div></div>
+          <button class="copy-btn" onclick="copyText('Kg Academics','ناو کۆپی کرا')">کۆپی</button>
+        </div>
+      </div>
+      <p style="margin-top:24px; font-size:.8rem; color:var(--ink-muted);">تێبینی: نرخ بەپێی جۆر و قەبارەی کارەکە دیاری دەکرێت، پەیوەندیمان پێوە بکە بۆ زانیاری زیاتر.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">
+    <svg viewBox="0 0 60 60" fill="none"><circle cx="30" cy="30" r="28" stroke="var(--gold)" stroke-width="1.2"/><text x="30" y="39" text-anchor="middle" font-family="'Aref Ruqaa', serif" font-weight="700" font-size="24" fill="var(--gold-bright)">KG</text></svg>
+    <span style="font-family:'Aref Ruqaa',serif; font-size:1.1rem; color:var(--paper);">K&amp;G Academics</span>
+  </div>
+  <p>هەموو مافەکان پارێزراون © K&amp;G Academics ٢٠٢٦ — بە خۆشەویستی ئامادەکراوە بۆ قوتابیان</p>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ------- CONFIG: dووباره وردەکاری پەیوەندی لێرە دەستکاری بکە ------- */
+const CONTACT = {
+  phone1: '0750 823 8124',
+  phone1Href: 'tel:+9647508238124',
+  phone2: '0751 837 7075',
+  phone2Href: 'tel:+9647518377075',
+  whatsapp: '9647508238124', // ژمارە بەبێ + و بەبێ بۆشایی، بە کۆدی وڵات (964 بۆ عێراق)
+  email: 'kgacademics3@gmail.com'
+};
+document.getElementById('ci-phone').href = CONTACT.phone1Href;
+document.getElementById('ci-phone2').href = CONTACT.phone2Href;
+document.getElementById('ci-whatsapp').href = 'https://wa.me/' + CONTACT.whatsapp + '?text=' + encodeURIComponent('سڵاو، دەمەوێت زانیاری زیاتر بزانم دەربارەی خزمەتگوزارییەکانتان.');
+document.getElementById('ci-email').href = 'mailto:' + CONTACT.email;
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+function copyText(text, msg){
+  navigator.clipboard.writeText(text).then(()=>showToast(msg)).catch(()=>showToast('نەتوانرا کۆپی بکرێت'));
+}
+
+/* ------- contact form -> mailto ------- */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const name = document.getElementById('fName').value.trim();
+  const phone = document.getElementById('fPhone').value.trim();
+  const type = document.getElementById('fType').value;
+  const subject = document.getElementById('fSubject').value.trim();
+  const msg = document.getElementById('fMsg').value.trim();
+  if(!name || !phone){ showToast('تکایە ناو و ژمارە پڕ بکەوە'); return; }
+  const text = encodeURIComponent(
+    'سڵاو، داواکارییەکی نوێم هەیە:\n' +
+    'ناو: ' + name + '\n' +
+    'ژمارەی پەیوەندی: ' + phone + '\n' +
+    'جۆری کار: ' + type +
+    (subject ? '\nناوی بابەتەکە: ' + subject : '') +
+    (msg ? '\nپەیام: ' + msg : '')
+  );
+  window.open('https://wa.me/' + CONTACT.whatsapp + '?text=' + text, '_blank');
+  showToast('داواکاریەکەت ئامادە کرا بۆ ناردن لە واتساپ');
+});
+
+/* ------- بەرهەمەکانم: لیستێکی هاوبەش (shared) کە هەموو سەردانکەر دەیبینێت ------- */
+/* تێبینی: ئەم زانیارییانە shared ـن، واتە هەموو سەردانکەرانی وێبسایتەکە دەیانبینن. */
+/* ------- بەرهەمەکانم: لیستەکە لە فایلی works.json وەردەگیرێت -------
+   بۆ زیادکردنی بەرهەمی نوێ: لە گیتهەب فایلی works.json بکەرەوە و
+   بابەتێکی نوێ بەم شێوەیە زیاد بکە:
+   { "type": "ڕاپۆرت", "title": "ناونیشانی بەرهەمەکە", "link": "لینکی PDF", "date": "10/09/2026" }
+*/
+function renderWorks(list){
+  const wrap = document.getElementById('workList');
+  if(!list.length){
+    wrap.innerHTML = '<div class="empty-state">هێشتا هیچ بەرهەمێک زیاد نەکراوە.</div>';
+    return;
+  }
+  wrap.innerHTML = list.map(w=>`
+    <div class="work-item">
+      <span class="tag">${w.type}</span>
+      <span class="title">${w.title}</span>
+      ${w.link ? `<a href="${w.link}" target="_blank" rel="noopener" style="color:var(--gold-bright); font-size:.85rem; font-weight:700; white-space:nowrap;">بینینی PDF ↗</a>` : ''}
+      <span class="date">${w.date || ''}</span>
+    </div>
+  `).join('');
+}
+(async ()=>{
+  try{
+    const res = await fetch('works.json', { cache: 'no-store' });
+    const list = await res.json();
+    renderWorks(Array.isArray(list) ? list : []);
+  }catch(err){
+    renderWorks([]);
+  }
+})();
+</script>
+
+</body>
+</html>
