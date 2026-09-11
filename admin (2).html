@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بەڕێوەبەرایەتی — K&amp;G Academics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#08121f;
+    --navy:#0d1e33;
+    --navy-elevated:#132a45;
+    --navy-line: rgba(201,162,39,0.22);
+    --gold:#c9a227;
+    --gold-bright:#ecc866;
+    --gold-dim:#8a7332;
+    --paper:#f2ecdc;
+    --ink:#eef1f6;
+    --ink-muted:#93a1b8;
+    --danger:#c9645a;
+    --radius-lg: 22px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; min-height:100vh;
+    background:
+      radial-gradient(circle at 15% 10%, rgba(201,162,39,0.12), transparent 45%),
+      radial-gradient(circle at 85% 90%, rgba(201,162,39,0.08), transparent 40%),
+      var(--navy-deep);
+    color:var(--ink);
+    font-family:'Noto Kufi Arabic', sans-serif;
+    line-height:1.8;
+    padding:clamp(20px,5vw,60px);
+  }
+  h1,h2,.display{ font-family:'Aref Ruqaa', serif; font-weight:700; margin:0; }
+  a{ color:inherit; }
+  .wrap{ max-width:760px; margin:0 auto; }
+  .top{ display:flex; align-items:center; gap:14px; margin-bottom:36px; }
+  .badge{
+    width:52px; height:52px; border-radius:50%; border:1px solid var(--gold);
+    display:grid; place-items:center; flex-shrink:0;
+  }
+  .badge span{ font-family:'Aref Ruqaa',serif; font-weight:700; font-size:1.3rem; color:var(--gold-bright); }
+  .top h1{ font-size:1.5rem; color:var(--paper); }
+  .top p{ margin:4px 0 0; color:var(--ink-muted); font-size:.9rem; }
+
+  .panel{
+    background:linear-gradient(165deg, var(--navy-elevated), var(--navy));
+    border:1px solid var(--navy-line); border-radius:var(--radius-lg);
+    padding:clamp(22px,4vw,36px); margin-bottom:24px;
+  }
+  .panel h2{ font-size:1.2rem; color:var(--paper); margin-bottom:8px; }
+  .panel > p.hint{ color:var(--ink-muted); font-size:.88rem; margin:0 0 20px; }
+
+  label{ display:block; font-size:.85rem; color:var(--ink-muted); margin-bottom:6px; }
+  input, select{
+    width:100%; background:var(--navy-deep); border:1px solid var(--navy-line); color:var(--ink);
+    padding:13px 16px; border-radius:var(--radius-sm); font-family:inherit; font-size:.95rem; margin-bottom:16px;
+  }
+  input:focus, select:focus{ outline:none; border-color:var(--gold); }
+  button{
+    background:linear-gradient(135deg,var(--gold-bright),var(--gold)); color:#241a02; border:none;
+    padding:14px 26px; border-radius:999px; font-weight:700; font-size:.95rem; cursor:pointer; font-family:inherit;
+    width:100%;
+  }
+  button:disabled{ opacity:.5; cursor:not-allowed; }
+  .row{ display:flex; gap:12px; }
+  .row > div{ flex:1; }
+
+  #connectPanel .hint-box{
+    background:var(--navy-deep); border:1px solid var(--navy-line); border-radius:var(--radius-sm);
+    padding:16px 18px; font-size:.85rem; color:var(--ink-muted); margin-bottom:20px;
+  }
+  #connectPanel .hint-box b{ color:var(--gold-bright); }
+  #connectPanel .hint-box ol{ margin:10px 0 0; padding-inline-start:22px; }
+  #connectPanel .hint-box li{ margin-bottom:6px; }
+
+  #workspace{ display:none; }
+  .status-line{ display:flex; align-items:center; gap:10px; font-size:.85rem; color:var(--ink-muted); margin-bottom:22px; }
+  .status-dot{ width:8px; height:8px; border-radius:50%; background:#5fbf74; box-shadow:0 0 0 4px rgba(95,191,116,.15); }
+
+  .work-row{
+    display:flex; align-items:center; gap:14px; background:var(--navy-deep);
+    border:1px solid var(--navy-line); border-radius:var(--radius-sm); padding:14px 16px; margin-bottom:10px;
+  }
+  .work-row .tag{ font-size:.72rem; padding:4px 12px; border-radius:999px; background:rgba(201,162,39,.14); color:var(--gold-bright); white-space:nowrap; }
+  .work-row .title{ flex:1; font-size:.92rem; }
+  .work-row .del{ background:none; border:none; color:var(--ink-muted); cursor:pointer; font-size:1.05rem; }
+  .work-row .del:hover{ color:var(--danger); }
+  .empty{ text-align:center; color:var(--ink-muted); font-size:.9rem; padding:30px 10px; }
+
+  .toast{
+    position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--gold-bright); color:#241a02; padding:12px 26px; border-radius:999px;
+    font-weight:700; font-size:.9rem; opacity:0; pointer-events:none; transition:all .3s ease; z-index:999;
+    max-width:90vw; text-align:center;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .toast.error{ background:var(--danger); color:#fff; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="top">
+    <div class="badge"><span>KG</span></div>
+    <div>
+      <h1>بەڕێوەبەرایەتی بەرهەمەکان</h1>
+      <p>ئەم پەڕەیە تایبەتە بۆ زیادکردن و سڕینەوەی بەرهەمی کۆگای وێبسایتەکەت</p>
+    </div>
+  </div>
+
+  <div class="panel" id="connectPanel">
+    <h2>پەیوەندی لەگەڵ گیتهەب</h2>
+    <p class="hint">پێویستە یەک جار "تۆکنی" تایبەتیت دروست بکەیت (وەک وشەی نهێنی تایبەت بۆ ئەم پەڕەیە) بۆ ئەوەی ڕێگەت پێبدرێت کۆدەکە بگۆڕیت.</p>
+    <div class="hint-box">
+      <b>چۆن تۆکنەکە دروست بکەم؟ (تەنها یەک جار پێویستە)</b>
+      <ol>
+        <li>بڕۆ بۆ: <b>github.com/settings/personal-access-tokens/new</b></li>
+        <li>لە خانەی "Token name" بنووسە: <b>kg-academics-admin</b></li>
+        <li>لە خانەی "Expiration" ماوەیەکی درێژ هەڵبژێرە (بۆ نموونە ساڵێک)</li>
+        <li>لە بەشی "Repository access"، "Only select repositories" هەڵبژێرە، ئینجا <b>kg-academics</b> دیاری بکە</li>
+        <li>لە بەشی "Repository permissions"، بگەڕێ بۆ <b>Contents</b> و بیکە بە <b>Read and write</b></li>
+        <li>کرتە لەسەر "Generate token" بکە لە خوارەوەی پەڕەکە</li>
+        <li>تۆکنەکە (کە بە <code>github_pat_</code> دەستپێدەکات) کۆپی بکە و لە خوارەوە دایبنێ</li>
+      </ol>
+    </div>
+    <label>تۆکنی گیتهەب</label>
+    <input id="tokenInput" type="password" placeholder="github_pat_...">
+    <button onclick="connect()">چوونەژوورەوە</button>
+    <div id="connectError" style="color:var(--danger); font-size:.85rem; margin-top:12px; display:none;"></div>
+  </div>
+
+  <div id="workspace">
+    <div class="panel">
+      <div class="status-line"><span class="status-dot"></span> بەستراوەتەوە بە گیتهەب — گۆڕانکارییەکان ڕاستەوخۆ بڵاو دەبنەوە</div>
+
+      <h2>زیادکردنی بەرهەمی نوێ</h2>
+      <div class="row">
+        <div>
+          <label>جۆری کار</label>
+          <select id="newType">
+            <option value="ڕاپۆرت">ڕاپۆرت</option>
+            <option value="سیمینار">سیمینار</option>
+            <option value="پۆستەر">پۆستەر</option>
+            <option value="سی ڤی">سی ڤی</option>
+            <option value="کاری تر">کاری تر</option>
+          </select>
+        </div>
+        <div>
+          <label>ناونیشانی بەرهەمەکە</label>
+          <input id="newTitle" type="text" placeholder="بۆ نموونە: ڕاپۆرتی گەرمایی زەوی">
+        </div>
+      </div>
+      <label>لینکی PDF (گووگڵ درایڤ یان هەر لینکێکی تر)</label>
+      <input id="newLink" type="text" placeholder="https://...">
+      <button onclick="addWork()" id="addBtn">زیادکردنی بەرهەم</button>
+    </div>
+
+    <div class="panel">
+      <h2>بەرهەمە بڵاوکراوەکان</h2>
+      <p class="hint">بۆ سڕینەوەی بەرهەمێک، کرتە لەسەر ✕ی تەنیشتی بکە.</p>
+      <div id="workList"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ------- ڕێکخستنی ریپۆزیتۆری ------- */
+const OWNER = 'kg-academics';
+const REPO = 'kg-academics';
+const FILE_PATH = 'works.json';
+const BRANCH = 'main';
+
+let TOKEN = '';
+let currentSha = '';
+let currentList = [];
+
+function showToast(msg, isError){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isError ? ' error' : '');
+  setTimeout(()=>{ t.className = 'toast'; }, 3200);
+}
+
+function b64EncodeUtf8(str){
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
+  return btoa(binary);
+}
+function b64DecodeUtf8(b64){
+  const binary = atob(b64.replace(/\n/g,''));
+  const bytes = new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i] = binary.charCodeAt(i);
+  return new TextDecoder('utf-8').decode(bytes);
+}
+
+async function ghGet(){
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}?ref=${BRANCH}`, {
+    headers: { 'Authorization': 'Bearer ' + TOKEN, 'Accept': 'application/vnd.github+json' }
+  });
+  if(!res.ok) throw new Error('GET_FAILED_' + res.status);
+  return res.json();
+}
+async function ghPut(newList, message){
+  const content = b64EncodeUtf8(JSON.stringify(newList, null, 2));
+  const res = await fetch(`https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE_PATH}`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + TOKEN,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ message, content, sha: currentSha, branch: BRANCH })
+  });
+  if(!res.ok){
+    const errBody = await res.json().catch(()=>({}));
+    throw new Error(errBody.message || ('PUT_FAILED_' + res.status));
+  }
+  return res.json();
+}
+
+async function connect(){
+  const tokenInput = document.getElementById('tokenInput');
+  const errBox = document.getElementById('connectError');
+  const token = tokenInput.value.trim();
+  errBox.style.display = 'none';
+  if(!token){ showToast('تکایە تۆکنەکە دابنێ', true); return; }
+  TOKEN = token;
+  try{
+    const data = await ghGet();
+    currentSha = data.sha;
+    currentList = JSON.parse(b64DecodeUtf8(data.content));
+    if(!Array.isArray(currentList)) currentList = [];
+    document.getElementById('connectPanel').style.display = 'none';
+    document.getElementById('workspace').style.display = 'block';
+    renderList();
+    showToast('بە سەرکەوتوویی بەستراوەتەوە');
+  }catch(err){
+    console.error(err);
+    errBox.textContent = 'نەتوانرا پەیوەندی بکرێت — دڵنیابەرەوە تۆکنەکە ڕاستە و مۆڵەتی Contents: Read and write ـی هەیە.';
+    errBox.style.display = 'block';
+  }
+}
+
+function renderList(){
+  const wrap = document.getElementById('workList');
+  if(!currentList.length){
+    wrap.innerHTML = '<div class="empty">هێشتا هیچ بەرهەمێک نییە.</div>';
+    return;
+  }
+  wrap.innerHTML = currentList.map((w,i)=>`
+    <div class="work-row">
+      <span class="tag">${w.type}</span>
+      <span class="title">${w.title}</span>
+      <button class="del" onclick="removeWork(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+async function addWork(){
+  const type = document.getElementById('newType').value;
+  const titleInput = document.getElementById('newTitle');
+  const linkInput = document.getElementById('newLink');
+  const title = titleInput.value.trim();
+  const link = linkInput.value.trim();
+  if(!title){ showToast('ناونیشانی بەرهەمەکە بنووسە', true); return; }
+  const addBtn = document.getElementById('addBtn');
+  addBtn.disabled = true;
+  addBtn.textContent = 'زیادکردن...';
+  try{
+    const newList = [{ type, title, link, date: new Date().toLocaleDateString('en-GB') }, ...currentList];
+    const result = await ghPut(newList, `Add work: ${title}`);
+    currentSha = result.content.sha;
+    currentList = newList;
+    renderList();
+    titleInput.value = '';
+    linkInput.value = '';
+    showToast('بەرهەمەکە زیادکرا و بڵاوکرایەوە');
+  }catch(err){
+    console.error(err);
+    showToast('هەڵەیەک ڕوویدا لە کاتی زیادکردن', true);
+  }finally{
+    addBtn.disabled = false;
+    addBtn.textContent = 'زیادکردنی بەرهەم';
+  }
+}
+
+async function removeWork(index){
+  if(!confirm('دڵنیایت لە سڕینەوەی ئەم بەرهەمە؟')) return;
+  const removed = currentList[index];
+  try{
+    const newList = currentList.filter((_, i) => i !== index);
+    const result = await ghPut(newList, `Remove work: ${removed.title}`);
+    currentSha = result.content.sha;
+    currentList = newList;
+    renderList();
+    showToast('بەرهەمەکە سڕایەوە');
+  }catch(err){
+    console.error(err);
+    showToast('هەڵەیەک ڕوویدا لە کاتی سڕینەوە', true);
+  }
+}
+</script>
+</body>
+</html>
